@@ -96,10 +96,11 @@ def main():
 
         st.success("处理完成！")
 
-        # 添加下载链接
-        gif_path = os.path.join(os.getcwd(), save_path, "final_output.gif")
-        st.markdown(
-            f"### [下载处理后的GIF动图](data:file/gif;base64,{base64.b64encode(open(gif_path, 'rb').read()).decode()})")
+         # 在网页上显示生成的 GIF 图像
+        output_gif_path = os.path.join(os.getcwd(), "output_images", "final_output.gif")
+        output_gif = open(output_gif_path, "rb").read()
+        st.image(output_gif, caption="处理后的GIF动图", use_column_width=True)
+
 
 
 if __name__ == "__main__":
