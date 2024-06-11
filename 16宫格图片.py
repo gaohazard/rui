@@ -77,29 +77,12 @@ def main():
         for i in range(16):
             images[i].save(os.path.join(save_path, f"cropped_image_{i+1}.jpg"))
 
-        # 生成GIF动图
-        images = [Image.open(os.path.join(save_path, f"cropped_image_{i+1}.jpg")) for i in range(16)]
-        output_gif = os.path.join(save_path, "output.gif")
-
-        # 创建一个指定大小的GIF图像
-        images[0].save(output_gif, save_all=True, append_images=images[1:], duration=duration, loop=0, size=(output_size, output_size))
-
-        # 裁剪生成的GIF图
-        cropped_frames = []
-        for frame in ImageSequence.Iterator(Image.open(output_gif)):
-            frame = frame.crop((left_margin, top_margin, frame.width - right_margin, frame.height - bottom_margin))
-            cropped_frames.append(frame)
-
-        final_frames = [frame.resize((output_size, output_size)) for frame in cropped_frames]
-
-        cropped_output_gif = os.path.join(save_path, "final_output.gif")
-        final_frames[0].save(cropped_output_gif, save_all=True, append_images=final_frames[1:], duration=duration, loop=0)
-
         st.success("处理完成！")
 
         # 在网页上显示生成的 GIF 图像
-        output_gif = open(cropped_output_gif, "rb").read()
-        st.image(output_gif, caption="处理后的GIF动图", use_column_width=True)
+        st.subheader("处理后的GIF动图")
+        for i in range(16):
+            st.image(images[i], caption=f"小图{i+1}", use_column_width=True)
 
 if __name__ == "__main__":
     main()
