@@ -3,7 +3,6 @@ from PIL import Image, ImageChops, ImageOps, ImageSequence
 import os
 import base64
 
-
 def trim(image):
     bg = Image.new(image.mode, image.size, image.getpixel((0,0)))
     diff = ImageChops.difference(image, bg)
@@ -21,9 +20,18 @@ def main():
         image = Image.open(uploaded_file)
         st.image(image, caption="上传的图片", use_column_width=True)
 
+        # 添加填写框和参数选择框
+        left_margin = st.number_input("左边距", value=5)
+        top_margin = st.number_input("上边距", value=5)
+        right_margin = st.number_input("右边距", value=5)
+        bottom_margin = st.number_input("下边距", value=40)
+        duration = st.number_input("动图持续时间 (ms)", value=300)
+        output_size = st.selectbox("输出图像像素大小", [120, 240, 360])
+
         # 进行图片处理
         st.subheader("处理后的九宫格图片")
 
+        # 在这里插入您的图片处理代码
         # 去除大图的白边
         large_image_trimmed = trim(image)
 
@@ -75,32 +83,28 @@ def main():
         images = [Image.open(os.path.join(save_path, f"cropped_image_{i+1}.jpg")) for i in range(9)]
         output_gif = os.path.join(save_path, "output.gif")
 
-        # 创建一个240x240像素的GIF图像
-        images[0].save(output_gif, save_all=True, append_images=images[1:], duration=200, loop=0, size=(240, 240))
+        # 创建一个指定大小的GIF图像
+        images[0].save(output_gif, save_all=True, append_images=images[1:], duration=duration, loop=0, size=(output_size, output_size))
 
         # 裁剪生成的GIF图
-        left_margin = 5
-        top_margin = 5
-        right_margin = 5
-        bottom_margin = 40
-
         cropped_frames = []
         for frame in ImageSequence.Iterator(Image.open(output_gif)):
             frame = frame.crop((left_margin, top_margin, frame.width - right_margin, frame.height - bottom_margin))
             cropped_frames.append(frame)
 
-        final_frames = [frame.resize((240, 240)) for frame in cropped_frames]
+        final_frames = [frame.resize((output_size, output_size)) for frame in cropped_frames]
 
         cropped_output_gif = os.path.join(save_path, "final_output.gif")
-        final_frames[0].save(cropped_output_gif, save_all=True, append_images=final_frames[1:], duration=300, loop=0)
+        final_frames[0].save(cropped_output_gif, save_all=True, append_images=final_frames[1:], duration=duration, loop=0)
 
         st.success("处理完成！")
 
-         # 在网页上显示生成的 GIF 图像
-        output_gif_path = os.path.join(os.getcwd(), "output_images", "final_output.gif")
-        output_gif = open(output_gif_path, "rb").read()
+        # 在网页上显示生成的 GIF 图像
+        output_gif = open(cropped_output_gif, "rb").read()
         st.image(output_gif, caption="处理后的GIF动图", use_column_width=True)
 
+if __name__ == "__main__":
+    main()
 
 
 if __name__ == "__main__":
