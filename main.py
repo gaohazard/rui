@@ -3,7 +3,7 @@ from app1 import app1
 from app2 import app2
 
 def main():
-    st.title("多个小程序展示页面")
+    st.title("图片处理")
 
     # 在侧边栏展示小程序选项
     app_choice = st.sidebar.selectbox("选择要展示的小程序", ["9宫格图片", "16宫格图片"])
