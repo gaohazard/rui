@@ -37,7 +37,7 @@ def app3():
         crop_bottom = st.sidebar.slider("Crop Bottom", 0, image.height, image.height)
         crop_params = (crop_left, crop_top, crop_right, crop_bottom)
 
-        modified_image = modify_image(image, resolution, new_width, new_height, (save_width, save_height), background_color, crop_params)
+        modified_image = modify_image(image, resolution, new_width, new_height, (save_width, save_height), crop_params)
 
         st.image(modified_image, caption="Modified Image", use_column_width=True)
 
