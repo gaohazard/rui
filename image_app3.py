@@ -36,10 +36,12 @@ def app3():
         if st.button("Save Image"):
             image_size = get_image_size(modified_image)
             if image_size > 0:  # 检查图像尺寸是否大于 0
-                modified_image.save("modified_image.jpg")  # 保存图像
+                quality_level = st.number_input("Enter quality level (0-100)", min_value=0, max_value=100, value=95)
+                modified_image.save("modified_image.jpg", quality=quality_level)  # 保存图像并设置质量参数
                 st.success("Image saved successfully.")
             else:
                 st.error("Failed to save image. Please try again.")
 
 if __name__ == "__main__":
     app3()
+
