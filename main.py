@@ -48,7 +48,7 @@ def main():
             #utility_app2()
     #elif process_type == "工作使用":
         #st.sidebar.subheader("选择工作使用类型")
-        work_type = st.sidebar.selectbox("选择工作使用类型", ["工作使用1", "工作使用2"])
+        #work_type = st.sidebar.selectbox("选择工作使用类型", ["工作使用1", "工作使用2"])
 
         #if work_type == "工作使用1":
             #work_app1()
