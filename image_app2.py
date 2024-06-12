@@ -2,8 +2,7 @@ import streamlit as st
 from PIL import Image, ImageChops, ImageOps, ImageSequence
 import os
 
-import streamlit as st
-def trim(image):
+def trim_image(image):
     bg = Image.new(image.mode, image.size, image.getpixel((0,0)))
     diff = ImageChops.difference(image, bg)
     diff = ImageChops.add(diff, diff, 2.0, -100)
@@ -32,7 +31,7 @@ def app2():
         st.subheader("处理后的16宫格图片")
 
         # 去除大图的白边
-        large_image_trimmed = trim(image)
+        large_image_trimmed = trim_image(image)
 
         # 获取去除白边后的图像尺寸
         width, height = large_image_trimmed.size
@@ -61,7 +60,7 @@ def app2():
                 small_image = large_image_trimmed.crop((left, top, right, bottom))
 
                 # 再次去除小图的白边
-                small_image_trimmed = trim(small_image)
+                small_image_trimmed = trim_image(small_image)
 
                 # 更新最小尺寸
                 min_width = min(min_width, small_image_trimmed.width)
@@ -80,9 +79,12 @@ def app2():
 
         st.success("处理完成！")
 
+        # 生成GIF动图
+        output_gif = os.path.join(save_path, "output.gif")
+        images[0].save(output_gif, save_all=True, append_images=images[1:], duration=duration, loop=0, size=(output_size, output_size))
+
         # 在网页上显示生成的 GIF 图像
-        st.subheader("处理后的GIF动图")
-        for i in range(16):
-            st.image(images[i], caption=f"小图{i+1}", use_column_width=True)
+        st.image(open(output_gif, "rb").read(), caption="处理后的GIF动图", format='gif')
 
 if __name__ == "__main__":
+    app2()
