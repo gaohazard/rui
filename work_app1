@@ -4,9 +4,9 @@ from scipy import interpolate
 from scipy.interpolate import interp1d
 
 
-def calculate_weight_balance(aircraft_model, fuel_density, empty_weight, cg_position, left_side_fuel_volume_new,
-                             center_side_fuel_volume_new, crew_weight, add_weight, additional_moment):
-        if aircraft_model == '737-800':
+def calculate_weight_balance(aircraft_model, fuel_density, empty_weight, cg_position, left_side_fuel_volume_new,center_side_fuel_volume_new, crew_weight, add_weight, additional_moment):
+    
+    if aircraft_model == '737-800':
         # 定义插值所需的数据
         left_side_fuel_volume = np.array(
             [0, 400, 800, 1200, 1600, 2000, 2400, 2800, 3200, 3600, 4000, 4400, 4800, 5200, 5600, 6000, 6400, 6800,
@@ -82,7 +82,7 @@ def calculate_weight_balance(aircraft_model, fuel_density, empty_weight, cg_posi
     return total_weight, cg_position_new
 
 def estimate_ba(cg_new, gw_new, brake, friction_coefficient, aircraft_model):
-        if aircraft_model == '737-800':
+    if aircraft_model == '737-800':
 
         cg = np.array([5, 10, 15, 20, 25, 30, 35])
         gw = np.array([80, 100, 120, 140, 160, 180, 200])
