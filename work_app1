@@ -523,7 +523,7 @@ def estimate_ba(cg_new, gw_new, brake, friction_coefficient, aircraft_model):
     interpolation_function = interpolate.interp2d(cg, gw, mw, kind='linear')
     return interpolation_function(cg_new, gw_new)
 
-def main():
+def app1():
     st.title("737飞机重量重心及停放中抗风能力测算工具")
 
     aircraft_model = st.text_input("飞机型号（737-700/737-800/737-8）", "737-800")
@@ -548,4 +548,4 @@ def main():
         st.write(result_text)
 
 if __name__ == "__main__":
-    main()
+    app1()
