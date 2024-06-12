@@ -1,4 +1,4 @@
-import streamlit as st
+ import streamlit as st
 from image_app2 import app2 as image_app2
 from image_app1 import app1 as image_app1
 from table_app1 import app1 as table_app1
@@ -18,7 +18,7 @@ def main():
     # 根据用户选择展示不同分类下的小程序内容
     if selected_category == "图片处理":
         st.subheader("图片处理小程序1")
-       image_app1()
+        image_app1()
 
         st.subheader("图片处理小程序2")
         image_app2()
