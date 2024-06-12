@@ -3,13 +3,6 @@ from PIL import Image, ImageChops, ImageOps, ImageSequence
 import os
 
 import streamlit as st
-
-def app2():
-    st.title("9宫格图片")
-    import streamlit as st
-    st.write("这是9宫格图片的内容")
-
-
 def trim(image):
     bg = Image.new(image.mode, image.size, image.getpixel((0,0)))
     diff = ImageChops.difference(image, bg)
@@ -18,7 +11,7 @@ def trim(image):
     if bbox:
         return image.crop(bbox)
 
-def main():
+def app2():
     st.title("16宫格图片处理")
 
     uploaded_file = st.file_uploader("上传图片", type=["jpg", "jpeg", "png"])
