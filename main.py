@@ -2,6 +2,7 @@ import streamlit as st
 from image_app1 import app1 as image_app1
 from image_app2 import app2 as image_app2
 from image_app3 import app3 as image_app3
+import cv2
 #from table_app1 import app1 as table_app1
 #from table_app2 import app2 as table_app2
 #from data_app1 import app1 as data_app1
