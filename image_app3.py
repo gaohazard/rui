@@ -1,25 +1,47 @@
 import streamlit as st
+import cv2
+import numpy as np
 from PIL import Image, ImageOps
 
-def modify_image(image, resolution, new_width, new_height, save_size, background_color):
+def remove_background(image_path):
+    img = cv2.imread(image_path)
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    _, thresh = cv2.threshold(gray, 240, 255, cv2.THRESH_BINARY)
+    kernel = np.ones((3, 3), np.uint8)
+    opening = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel, iterations=2)
+    sure_bg = cv2.dilate(opening, kernel, iterations=3)
+    markers = cv2.watershed(img, sure_bg)
+    img[markers == -1] = [255, 0, 0]
+    return img
+
+def modify_image(image, resolution, new_width, new_height, save_size, background_color, crop_params):
+    # 背景抠图
+    image = remove_background(image)
+
     # 修改分辨率
-    image = image.resize(resolution)
+    image = cv2.resize(image, resolution)
 
     # 修改像素宽高
-    image = image.resize((new_width, new_height))
+    image = cv2.resize(image, (new_width, new_height))
 
-    # 调整照片的背景颜色
-    if background_color:
-        image = ImageOps.expand(image, border=10, fill=background_color)
+    # 修改背景颜色
+    image[np.where((image == [255, 0, 0]).all(axis=2))] = background_color
+
+    # 剪切图片
+    top, bottom, left, right = crop_params
+    image = image[top:-bottom, left:-right]
+
+    # 转换为PIL图像
+    image = Image.fromarray(image)
 
     # 保存尺寸大小
     image = image.resize(save_size)
-    
+
     return image
 
 def app3():
-    st.title("Image Modifier")
-    
+    st.title("Image Editor")
+
     uploaded_image = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
 
     if uploaded_image is not None:
@@ -31,8 +53,14 @@ def app3():
         save_width = st.sidebar.slider("Save Width", 50, 500, 200)
         save_height = st.sidebar.slider("Save Height", 50, 500, 150)
         background_color = st.sidebar.color_picker("Background Color", "#ffffff")
+        top_crop = st.sidebar.slider("Top Crop", 0, 100, 0)
+        bottom_crop = st.sidebar.slider("Bottom Crop", 0, 100, 0)
+        left_crop = st.sidebar.slider("Left Crop", 0, 100, 0)
+        right_crop = st.sidebar.slider("Right Crop", 0, 100, 0)
 
-        modified_image = modify_image(image, resolution, new_width, new_height, (save_width, save_height), background_color)
+        crop_params = (top_crop, bottom_crop, left_crop, right_crop)
+
+        modified_image = modify_image(image, resolution, new_width, new_height, (save_width, save_height), background_color, crop_params)
 
         st.image(modified_image, caption="Modified Image", use_column_width=True)
 
@@ -42,3 +70,4 @@ def app3():
 
 if __name__ == "__main__":
     app3()
+
