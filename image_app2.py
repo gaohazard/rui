@@ -86,4 +86,3 @@ def app2():
             st.image(images[i], caption=f"小图{i+1}", use_column_width=True)
 
 if __name__ == "__main__":
-    main()
