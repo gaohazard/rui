@@ -9,7 +9,7 @@ from image_app1 import app1 as image_app1_func
 #from utility_app2 import app2 as utility_app2_func
 
 def main():
-    st.title("多个小程序展示页面")
+    st.title("")
 
     selected_category = st.sidebar.selectbox("选择分类", ["图片处理", "表格处理", "数据分析", "实用工具"])
 
