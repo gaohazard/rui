@@ -3,6 +3,10 @@ from PIL import Image, ImageChops, ImageOps, ImageSequence
 import os
 import base64
 
+# 设置页面布局
+st.set_page_config(layout="wide", page_title="a 16-grid image into a GIF animation", page_icon="📊")
+
+
 def trim(image):
     bg = Image.new(image.mode, image.size, image.getpixel((0,0)))
     diff = ImageChops.difference(image, bg)
