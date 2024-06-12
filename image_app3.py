@@ -14,9 +14,6 @@ def modify_image(image, resolution_dpi, new_width, new_height):
 
     # 修改像素宽高
     image = image.resize((new_width, new_height))
-
-    # 保存尺寸大小
-    image = image.resize((new_width, new_height))
     
     return image
 
@@ -38,8 +35,8 @@ def app3():
 
         if st.button("Save Image"):
             image_size = get_image_size(modified_image)
-           if image_size > 0:  # 检查图像尺寸是否大于 0
-                modified_image.save("modified_image.jpg")
+            if image_size > 0:  # 检查图像尺寸是否大于 0
+                modified_image.save("modified_image.jpg")  # 保存图像
                 st.success("Image saved successfully.")
             else:
                 st.error("Failed to save image. Please try again.")
