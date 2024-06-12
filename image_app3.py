@@ -1,6 +1,7 @@
 import streamlit as st
 from PIL import Image
 import os
+
 def get_image_size(image):
     # 获取图像的尺寸大小（KB）
     image_size = os.path.getsize(image.fp.name) / 1024
