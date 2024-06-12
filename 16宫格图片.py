@@ -4,7 +4,7 @@ import os
 
 import streamlit as st
 
-def app1():
+def app2():
     st.title("9宫格图片")
     import streamlit as st
     st.write("这是9宫格图片的内容")
