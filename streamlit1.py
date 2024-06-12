@@ -4,7 +4,7 @@ import os
 import base64
 
 # 设置页面布局
-st.set_page_config(layout="wide", page_title="a 16-grid image into a GIF animation", page_icon="📊")
+st.set_page_config(layout="wide", page_title="a 9-grid image into a GIF animation", page_icon="📊")
 
 
 def trim(image):
