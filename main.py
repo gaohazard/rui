@@ -1,6 +1,6 @@
 import streamlit as st
-from 16宫格图片 import 16宫格图片
-from 9宫格图片 import 9宫格图片
+from 16宫格图片 import app2
+from 9宫格图片 import app1
 
 def main():
     st.title("多个小程序展示页面")
