@@ -20,26 +20,26 @@ def main():
         st.subheader("图片处理小程序2")
         image_app2_func()
 
-    elif selected_category == "表格处理":
-        st.subheader("表格处理小程序1")
-        table_app1_func()
+    #elif selected_category == "表格处理":
+        #st.subheader("表格处理小程序1")
+        #table_app1_func()
 
-        st.subheader("表格处理小程序2")
-        table_app2_func()
+        #st.subheader("表格处理小程序2")
+        #table_app2_func()
 
-    elif selected_category == "数据分析":
-        st.subheader("数据分析小程序1")
-        data_app1_func()
+   # elif selected_category == "数据分析":
+       # st.subheader("数据分析小程序1")
+       # data_app1_func()
 
-        st.subheader("数据分析小程序2")
-        data_app2_func()
+      #  st.subheader("数据分析小程序2")
+      #  data_app2_func()
 
-    elif selected_category == "实用工具":
-        st.subheader("实用工具小程序1")
-        utility_app1_func()
+ #   elif selected_category == "实用工具":
+      #  st.subheader("实用工具小程序1")
+    #    utility_app1_func()
 
-        st.subheader("实用工具小程序2")
-        utility_app2_func()
+    #    st.subheader("实用工具小程序2")
+    #    utility_app2_func()
 
 if __name__ == "__main__":
     main()
