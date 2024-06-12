@@ -1,12 +1,12 @@
 import streamlit as st
 from image_app2 import app2 as image_app2_func
 from image_app1 import app1 as image_app1_func
-from table_app1 import app1 as table_app1_func
-from table_app2 import app2 as table_app2_func
-from data_app1 import app1 as data_app1_func
-from data_app2 import app2 as data_app2_func
-from utility_app1 import app1 as utility_app1_func
-from utility_app2 import app2 as utility_app2_func
+#from table_app1 import app1 as table_app1_func
+#from table_app2 import app2 as table_app2_func
+#from data_app1 import app1 as data_app1_func
+#from data_app2 import app2 as data_app2_func
+#from utility_app1 import app1 as utility_app1_func
+#from utility_app2 import app2 as utility_app2_func
 
 def main():
     st.title("多个小程序展示页面")
