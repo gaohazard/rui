@@ -1,5 +1,5 @@
 opencv-python==4.5.3.56
 Pillow
 numpy==1.21.0
-scipy==1.7.3
+scipy==1.6.3
 python==3.10
