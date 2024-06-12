@@ -3,24 +3,10 @@ from PIL import Image, ImageChops, ImageOps, ImageSequence
 import os
 import base64
 
-# 创建一个多选框，用于选择要展示的应用程序
-selected_app = st.multiselect("选择要展示的应用程序", ["应用程序1", "应用程序2", "应用程序3"])
+def app1():
+    st.title("9宫格图片")
+    st.write("这是9宫格图片的内容")
 
-# 根据用户选择展示不同的应用程序
-if "应用程序1" in selected_app:
-    st.write("# 应用程序1")
-    # 在这里添加应用程序1的代码
-
-if "应用程序2" in selected_app:
-    st.write("# 应用程序2")
-    # 在这里添加应用程序2的代码
-
-if "应用程序3" in selected_app:
-    st.write("# 应用程序3")
-    # 在这里添加应用程序3的代码
-
-# 设置页面布局
-st.set_page_config(layout="wide", page_title="a 9-grid image into a GIF animation", page_icon="📊")
 
 
 def trim(image):
