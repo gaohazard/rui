@@ -1,4 +1,4 @@
- import streamlit as st
+import streamlit as st
 from image_app2 import app2 as image_app2
 from image_app1 import app1 as image_app1
 from table_app1 import app1 as table_app1
