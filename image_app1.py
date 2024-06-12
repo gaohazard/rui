@@ -104,4 +104,3 @@ def app1():
         st.image(output_gif, caption="处理后的GIF动图", use_column_width=True)
 
 if __name__ == "__main__":
-    main()
