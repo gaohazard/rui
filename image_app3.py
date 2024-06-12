@@ -25,13 +25,14 @@ def app3():
     if uploaded_image is not None:
         image = Image.open(uploaded_image)
 
-        resolution = (800, 600)  # 分辨率
-        new_width = 400  # 新宽度
-        new_height = 300  # 新高度
-        save_size = (200, 150)  # 保存尺寸大小
-        background_color = (255, 255, 255)  # 背景颜色
+        resolution = st.sidebar.slider("Resolution", 100, 2000, (800, 600))
+        new_width = st.sidebar.slider("New Width", 100, 1000, 400)
+        new_height = st.sidebar.slider("New Height", 100, 1000, 300)
+        save_width = st.sidebar.slider("Save Width", 50, 500, 200)
+        save_height = st.sidebar.slider("Save Height", 50, 500, 150)
+        background_color = st.sidebar.color_picker("Background Color", "#ffffff")
 
-        modified_image = modify_image(image, resolution, new_width, new_height, save_size, background_color)
+        modified_image = modify_image(image, resolution, new_width, new_height, (save_width, save_height), background_color)
 
         st.image(modified_image, caption="Modified Image", use_column_width=True)
 
