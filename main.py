@@ -1,6 +1,7 @@
 import streamlit as st
 from image_app1 import app1 as image_app1
 from image_app2 import app2 as image_app2
+from image_app3 import app3 as image_app3
 #from table_app1 import app1 as table_app1
 #from table_app2 import app2 as table_app2
 #from data_app1 import app1 as data_app1
@@ -16,12 +17,14 @@ def main():
 
     if process_type == "图片处理":
         st.sidebar.subheader("选择图片类型")
-        image_type = st.sidebar.selectbox("选择图片类型", ["9宫格图片", "16宫格图片"])
+        image_type = st.sidebar.selectbox("选择图片类型", ["9宫格图片", "16宫格图片","修改照片格式"])
 
         if image_type == "9宫格图片":
             image_app1()
         elif image_type == "16宫格图片":
             image_app2()
+        elif image_type == "修改照片格式":
+            image_app3()
     #elif process_type == "表格处理":
         #st.sidebar.subheader("选择表格类型")
         #table_type = st.sidebar.selectbox("选择表格类型", ["表格处理1", "表格处理2"])
