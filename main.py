@@ -7,7 +7,7 @@ from image_app2 import app2 as image_app2
 #from data_app2 import app2 as data_app2
 #from utility_app1 import app1 as utility_app1
 #from utility_app2 import app2 as utility_app2
-from work_app1 import app1 as work_fuc1
+from work_app1 import app1 as work_app1
 #from work_app2 import app2 as work_app2
 
 def main():
@@ -51,7 +51,7 @@ def main():
         work_type = st.sidebar.selectbox("选择工作使用类型", ["工作使用1", "工作使用2"])
 
         if work_type == "工作使用1":
-            work_fuc1()
+            work_app1()
         #elif work_type == "工作使用2":
             #work_app2()
 if __name__ == "__main__":
