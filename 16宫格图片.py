@@ -2,8 +2,13 @@ import streamlit as st
 from PIL import Image, ImageChops, ImageOps, ImageSequence
 import os
 
-# 设置页面布局
-st.set_page_config(layout="wide", page_title="a 16-grid image into a GIF animation", page_icon="📊")
+import streamlit as st
+
+def app1():
+    st.title("9宫格图片")
+    import streamlit as st
+    st.write("这是9宫格图片的内容")
+
 
 def trim(image):
     bg = Image.new(image.mode, image.size, image.getpixel((0,0)))
