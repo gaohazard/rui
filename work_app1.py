@@ -543,20 +543,19 @@ class EstimateBaApp:
             self.calculate()
 
     def calculate(self):
-        aircraft_model=(self.aircraft_model_entry.get())
         if aircraft_model == '737-800':
-            fuel_density = float(self.fuel_density_entry.get()) * 2.20462262185
+            fuel_density = float(self.fuel_density* 2.20462262185)
 
-            index=float(self.index_entry.get())
-            gw_new = float(self.gw_new_entry.get())
-            left_side_fuel_volume_new = float(self.left_side_fuel_volume_new_entry.get()) / fuel_density
-            center_side_fuel_volume_new = float(self.center_side_fuel_volume_new_entry.get()) / fuel_density  # 根据需要设置默认值
-            crew_weight = float(self.crew_weight_entry.get()) * 2.20462262185  # 根据需要设置默认值
-            add_weight = float(self.add_weight_entry.get())  # 根据需要设置默认值
-            additional_moment = float(self.additional_moment_entry.get())  # 根据需要设置默认值
-            brake = str(self.brake_entry.get())
+            index=float(self.index)
+            gw_new = float(self.gw_new)
+            left_side_fuel_volume_new = float(self.left_side_fuel_volume_new) / fuel_density
+            center_side_fuel_volume_new = float(self.center_side_fuel_volume_new) / fuel_density  # 根据需要设置默认值
+            crew_weight = float(self.crew_weight) * 2.20462262185  # 根据需要设置默认值
+            add_weight = float(self.add_weight)  # 根据需要设置默认值
+            additional_moment = float(self.additional_moment)  # 根据需要设置默认值
+            brake = str(self.brake)
             cg_new=((index-45)*77162/gw_new+658.3-627.1)/1.558
-            friction_coefficient = float(self.friction_coefficient_entry.get())
+            friction_coefficient = float(self.friction_coefficient)
             total_weight, cg_position_new = calculate_weight_balance(aircraft_model, fuel_density, gw_new,
                                                                      cg_new, left_side_fuel_volume_new,
                                                                      center_side_fuel_volume_new, crew_weight,
@@ -567,19 +566,19 @@ class EstimateBaApp:
             self.result_label.config(text=result_text)
 
         elif aircraft_model =='737-8':
-            fuel_density = float(self.fuel_density_entry.get()) * 2.20462262185
+            fuel_density = float(self.fuel_density) * 2.20462262185
 
-            index = float(self.index_entry.get())
-            gw_new = float(self.gw_new_entry.get())
-            left_side_fuel_volume_new = float(self.left_side_fuel_volume_new_entry.get()) / fuel_density
+            index = float(self.index)
+            gw_new = float(self.gw)
+            left_side_fuel_volume_new = float(self.left_side_fuel_volume_new) / fuel_density
             center_side_fuel_volume_new = float(
-                self.center_side_fuel_volume_new_entry.get()) / fuel_density  # 根据需要设置默认值
-            crew_weight = float(self.crew_weight_entry.get()) * 2.20462262185  # 根据需要设置默认值
-            add_weight = float(self.add_weight_entry.get())  # 根据需要设置默认值
-            additional_moment = float(self.additional_moment_entry.get())  # 根据需要设置默认值
-            brake = str(self.brake_entry.get())
+                self.center_side_fuel_volume_new) / fuel_density  # 根据需要设置默认值
+            crew_weight = float(self.crew_weight) * 2.20462262185  # 根据需要设置默认值
+            add_weight = float(self.add_weight)  # 根据需要设置默认值
+            additional_moment = float(self.additional_moment)  # 根据需要设置默认值
+            brake = str(self.brake)
             cg_new = ((index - 45) * 77162 / gw_new + 658.3 - 627.1) / 1.558
-            friction_coefficient = float(self.friction_coefficient_entry.get())
+            friction_coefficient = float(self.friction_coefficient)
             total_weight, cg_position_new = calculate_weight_balance(aircraft_model, fuel_density, gw_new,
                                                                      cg_new, left_side_fuel_volume_new,
                                                                      center_side_fuel_volume_new, crew_weight,
@@ -589,19 +588,19 @@ class EstimateBaApp:
             result_text = f"最大抗风值(节)：{mw_new}\n飞机重量（lb）：{total_weight}\n飞机重心位置（%）：{cg_position_new}"
             self.result_label.config(text=result_text)
         elif aircraft_model == '737-700':
-            fuel_density = float(self.fuel_density_entry.get()) * 2.20462262185
+            fuel_density = float(self.fuel_density) * 2.20462262185
 
-            index = float(self.index_entry.get())
-            gw_new = float(self.gw_new_entry.get())
-            left_side_fuel_volume_new = float(self.left_side_fuel_volume_new_entry.get()) / fuel_density
+            index = float(self.index)
+            gw_new = float(self.gw_new)
+            left_side_fuel_volume_new = float(self.left_side_fuel_volume_new) / fuel_density
             center_side_fuel_volume_new = float(
-                self.center_side_fuel_volume_new_entry.get()) / fuel_density  # 根据需要设置默认值
-            crew_weight = float(self.crew_weight_entry.get()) * 2.20462262185  # 根据需要设置默认值
-            add_weight = float(self.add_weight_entry.get())  # 根据需要设置默认值
-            additional_moment = float(self.additional_moment_entry.get())  # 根据需要设置默认值
-            brake = str(self.brake_entry.get())
+                self.center_side_fuel_volume_new) / fuel_density  # 根据需要设置默认值
+            crew_weight = float(self.crew_weight) * 2.20462262185  # 根据需要设置默认值
+            add_weight = float(self.add_weight)  # 根据需要设置默认值
+            additional_moment = float(self.additional_moment)  # 根据需要设置默认值
+            brake = str(self.brake)
             cg_new = ((index - 45) * 66139 / gw_new + 658.3 - 627.1) / 1.558
-            friction_coefficient = float(self.friction_coefficient_entry.get())
+            friction_coefficient = float(self.friction_coefficient)
             total_weight, cg_position_new = calculate_weight_balance(aircraft_model, fuel_density, gw_new,
                                                                      cg_new, left_side_fuel_volume_new,
                                                                      center_side_fuel_volume_new, crew_weight,
