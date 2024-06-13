@@ -543,7 +543,7 @@ class EstimateBaApp:
             self.calculate()
 
     def calculate(self):
-        if aircraft_model == '737-800':
+        if self.aircraft_model == '737-800':
             fuel_density = float(self.fuel_density* 2.20462262185)
 
             index=float(self.index)
