@@ -523,29 +523,94 @@ def estimate_ba(cg_new, gw_new, brake, friction_coefficient, aircraft_model):
     interpolation_function = interpolate.interp2d(cg, gw, mw, kind='linear')
     return interpolation_function(cg_new, gw_new)
 
-def app1():
-    st.title("737飞机重量重心及停放中抗风能力测算工具")
+class EstimateBaApp:
+    def __init__(self):
+        st.title('737飞机重量重心及停放中抗风能力测算工具')
+        self.aircraft_model = st.selectbox('飞机型号', ['737-700', '737-800', '737-8'])
+        self.fuel_density = st.number_input('燃油密度(Kg/l)')
+        self.index = st.number_input('新运行网中空机指数')
+        self.gw_new = st.number_input('新运行网空机重量(lb)')
+        self.left_side_fuel_volume_new = st.number_input('左和右主油箱总油量(lb)')
+        self.center_side_fuel_volume_new = st.number_input('中央油箱油量(lb)')
+        self.crew_weight = st.number_input('试车人员总重量(kg)（如试车）')
+        self.add_weight = st.number_input('其他需要加减重量(lb)')
+        self.additional_moment = st.number_input('其他需要加减重量对应的力矩值(lb.in)')
+        self.brake = st.number_input('是否设置停留刹车（是/否）')
+        self.friction_coefficient = st.number_input('请输入摩擦系数（0.1-0.8）')
 
-    aircraft_model = st.text_input("飞机型号（737-700/737-800/737-8）", "737-800")
-    fuel_density = st.number_input("燃油密度(Kg/l)", 0.8)
-    empty_weight = st.number_input("空机重量(lb)", 85000)
-    cg_position = st.number_input("飞机重心位置(%)", 25.0)
-    left_side_fuel_volume_new = st.number_input("左和右主油箱总油量(lb)", 20000)
-    center_side_fuel_volume_new = st.number_input("中央油箱油量(lb)", 10000)
-    crew_weight = st.number_input("试车人员总重量(kg)（如试车）", 300)
-    add_weight = st.number_input("其他需要加减重量(lb)", 500)
-    additional_moment = st.number_input("其他需要加减重量对应的力矩值(lb.in)", 1000)
-    brake = st.selectbox("是否设置停留刹车", ["是", "否"])
-    friction_coefficient = st.number_input("请输入摩擦系数（0.1-0.8）", 0.3)
+        self.calculate_button = st.button('计算')
+        if self.calculate_button:
+            self.calculate()
 
-    if st.button("计算"):
-        total_weight, cg_position_new = calculate_weight_balance(aircraft_model, fuel_density, empty_weight,
-                                                                 cg_position, left_side_fuel_volume_new,
-                                                                 center_side_fuel_volume_new, crew_weight,
-                                                                 add_weight, additional_moment)
-        mw_new = estimate_ba(cg_position_new, total_weight / 1000, brake == "是", friction_coefficient, aircraft_model)
-        result_text = f"最大抗风值(节)：{mw_new}\n飞机重量（lb）：{total_weight}\n飞机重心位置（%）：{cg_position_new}"
-        st.write(result_text)
+    def calculate(self):
+        aircraft_model=(self.aircraft_model_entry.get())
+        if aircraft_model == '737-800':
+            fuel_density = float(self.fuel_density_entry.get()) * 2.20462262185
 
-if __name__ == "__main__":
-    app1()
+            index=float(self.index_entry.get())
+            gw_new = float(self.gw_new_entry.get())
+            left_side_fuel_volume_new = float(self.left_side_fuel_volume_new_entry.get()) / fuel_density
+            center_side_fuel_volume_new = float(self.center_side_fuel_volume_new_entry.get()) / fuel_density  # 根据需要设置默认值
+            crew_weight = float(self.crew_weight_entry.get()) * 2.20462262185  # 根据需要设置默认值
+            add_weight = float(self.add_weight_entry.get())  # 根据需要设置默认值
+            additional_moment = float(self.additional_moment_entry.get())  # 根据需要设置默认值
+            brake = str(self.brake_entry.get())
+            cg_new=((index-45)*77162/gw_new+658.3-627.1)/1.558
+            friction_coefficient = float(self.friction_coefficient_entry.get())
+            total_weight, cg_position_new = calculate_weight_balance(aircraft_model, fuel_density, gw_new,
+                                                                     cg_new, left_side_fuel_volume_new,
+                                                                     center_side_fuel_volume_new, crew_weight,
+                                                                     add_weight, additional_moment)
+            print(gw_new,cg_new,total_weight, cg_position_new)
+            mw_new = estimate_ba(cg_position_new, total_weight/1000, brake, friction_coefficient,aircraft_model)
+            result_text = f"最大抗风值(节)：{mw_new}\n飞机重量（lb）：{total_weight}\n飞机重心位置（%）：{cg_position_new}"
+            self.result_label.config(text=result_text)
+
+        elif aircraft_model =='737-8':
+            fuel_density = float(self.fuel_density_entry.get()) * 2.20462262185
+
+            index = float(self.index_entry.get())
+            gw_new = float(self.gw_new_entry.get())
+            left_side_fuel_volume_new = float(self.left_side_fuel_volume_new_entry.get()) / fuel_density
+            center_side_fuel_volume_new = float(
+                self.center_side_fuel_volume_new_entry.get()) / fuel_density  # 根据需要设置默认值
+            crew_weight = float(self.crew_weight_entry.get()) * 2.20462262185  # 根据需要设置默认值
+            add_weight = float(self.add_weight_entry.get())  # 根据需要设置默认值
+            additional_moment = float(self.additional_moment_entry.get())  # 根据需要设置默认值
+            brake = str(self.brake_entry.get())
+            cg_new = ((index - 45) * 77162 / gw_new + 658.3 - 627.1) / 1.558
+            friction_coefficient = float(self.friction_coefficient_entry.get())
+            total_weight, cg_position_new = calculate_weight_balance(aircraft_model, fuel_density, gw_new,
+                                                                     cg_new, left_side_fuel_volume_new,
+                                                                     center_side_fuel_volume_new, crew_weight,
+                                                                     add_weight, additional_moment)
+            print(gw_new, cg_new, total_weight, cg_position_new)
+            mw_new = estimate_ba(cg_position_new, total_weight/1000, brake, friction_coefficient, aircraft_model)
+            result_text = f"最大抗风值(节)：{mw_new}\n飞机重量（lb）：{total_weight}\n飞机重心位置（%）：{cg_position_new}"
+            self.result_label.config(text=result_text)
+        elif aircraft_model == '737-700':
+            fuel_density = float(self.fuel_density_entry.get()) * 2.20462262185
+
+            index = float(self.index_entry.get())
+            gw_new = float(self.gw_new_entry.get())
+            left_side_fuel_volume_new = float(self.left_side_fuel_volume_new_entry.get()) / fuel_density
+            center_side_fuel_volume_new = float(
+                self.center_side_fuel_volume_new_entry.get()) / fuel_density  # 根据需要设置默认值
+            crew_weight = float(self.crew_weight_entry.get()) * 2.20462262185  # 根据需要设置默认值
+            add_weight = float(self.add_weight_entry.get())  # 根据需要设置默认值
+            additional_moment = float(self.additional_moment_entry.get())  # 根据需要设置默认值
+            brake = str(self.brake_entry.get())
+            cg_new = ((index - 45) * 66139 / gw_new + 658.3 - 627.1) / 1.558
+            friction_coefficient = float(self.friction_coefficient_entry.get())
+            total_weight, cg_position_new = calculate_weight_balance(aircraft_model, fuel_density, gw_new,
+                                                                     cg_new, left_side_fuel_volume_new,
+                                                                     center_side_fuel_volume_new, crew_weight,
+                                                                     add_weight, additional_moment)
+            print(gw_new, cg_new, total_weight, cg_position_new)
+            mw_new = estimate_ba(cg_position_new, total_weight/1000, brake, friction_coefficient, aircraft_model)
+            result_text = f"最大抗风值(节)：{mw_new}\n飞机重量（lb）：{total_weight}\n飞机重心位置（%）：{cg_position_new}"
+            self.result_label.config(text=result_text)
+
+# 创建Streamlit应用
+app1 = EstimateBaApp()
+
