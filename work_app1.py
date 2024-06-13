@@ -2,7 +2,7 @@ import streamlit as st
 import numpy as np
 from scipy import interpolate
 from scipy.interpolate import interp1d
-
+from scipy.interpolate import interp2d
 
 def calculate_weight_balance(aircraft_model, fuel_density, empty_weight, cg_position, left_side_fuel_volume_new,center_side_fuel_volume_new, crew_weight, add_weight, additional_moment):
     
