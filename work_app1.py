@@ -569,7 +569,7 @@ class EstimateBaApp:
             fuel_density = float(self.fuel_density) * 2.20462262185
 
             index = float(self.index)
-            gw_new = float(self.gw)
+            gw_new = float(self.gw_new)
             left_side_fuel_volume_new = float(self.left_side_fuel_volume_new) / fuel_density
             center_side_fuel_volume_new = float(
                 self.center_side_fuel_volume_new) / fuel_density  # 根据需要设置默认值
