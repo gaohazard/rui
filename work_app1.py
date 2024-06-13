@@ -1,8 +1,8 @@
 import streamlit as st
 import numpy as np
-from scipy import interpolate
 from scipy.interpolate import interp1d
 from scipy.interpolate import interp2d
+
 
 def calculate_weight_balance(aircraft_model, fuel_density, empty_weight, cg_position, left_side_fuel_volume_new,center_side_fuel_volume_new, crew_weight, add_weight, additional_moment):
     
@@ -80,7 +80,7 @@ def calculate_weight_balance(aircraft_model, fuel_density, empty_weight, cg_posi
     cg_position_new = (total_arm - 627.1) * 100 / 155.8
 
     return total_weight, cg_position_new
-
+from scipy.interpolate import interp2d
 def estimate_ba(cg_new, gw_new, brake, friction_coefficient, aircraft_model):
     if aircraft_model == '737-800':
 
@@ -520,7 +520,7 @@ def estimate_ba(cg_new, gw_new, brake, friction_coefficient, aircraft_model):
         else:
             print("摩擦系数输入错误")
 
-    interpolation_function = interpolate.interp2d(cg, gw, mw, kind='linear')
+    interpolation_function = interp2d(cg, gw, mw, kind='linear')
     return interpolation_function(cg_new, gw_new)
 
 class EstimateBaApp:
