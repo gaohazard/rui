@@ -1,7 +1,6 @@
 import streamlit as st
 import numpy as np
-from scipy.interpolate import interp1d
-from scipy.interpolate import interp2d
+from scipy.interpolate import interp1d, interp2d
 
 
 def calculate_weight_balance(aircraft_model, fuel_density, empty_weight, cg_position, left_side_fuel_volume_new,center_side_fuel_volume_new, crew_weight, add_weight, additional_moment):
@@ -59,6 +58,7 @@ def calculate_weight_balance(aircraft_model, fuel_density, empty_weight, cg_posi
         crew_weight_moment = crew_weight * 32
     else:
         print("机型输入错误")
+        return None, None
     # 定义插值函数
     left_interp_func = interp1d(left_side_fuel_volume, additional_lever_arm_left, kind='linear')
     center_interp_func = interp1d(center_fuel_volume, additional_lever_arm_center, kind='linear')
@@ -80,7 +80,7 @@ def calculate_weight_balance(aircraft_model, fuel_density, empty_weight, cg_posi
     cg_position_new = (total_arm - 627.1) * 100 / 155.8
 
     return total_weight, cg_position_new
-from scipy.interpolate import interp2d
+
 def estimate_ba(cg_new, gw_new, brake, friction_coefficient, aircraft_model):
     if aircraft_model == '737-800':
 
