@@ -565,7 +565,7 @@ class EstimateBaApp:
             result_text = f"最大抗风值(节)：{mw_new}\n飞机重量（lb）：{total_weight}\n飞机重心位置（%）：{cg_position_new}"
             self.result_label.config(text=result_text)
 
-        elif aircraft_model =='737-8':
+        elif self.aircraft_model =='737-8':
             fuel_density = float(self.fuel_density) * 2.20462262185
 
             index = float(self.index)
@@ -587,7 +587,7 @@ class EstimateBaApp:
             mw_new = estimate_ba(cg_position_new, total_weight/1000, brake, friction_coefficient, aircraft_model)
             result_text = f"最大抗风值(节)：{mw_new}\n飞机重量（lb）：{total_weight}\n飞机重心位置（%）：{cg_position_new}"
             self.result_label.config(text=result_text)
-        elif aircraft_model == '737-700':
+        elif self.aircraft_model == '737-700':
             fuel_density = float(self.fuel_density) * 2.20462262185
 
             index = float(self.index)
