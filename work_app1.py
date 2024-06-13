@@ -520,7 +520,7 @@ def estimate_ba(cg_new, gw_new, brake, friction_coefficient, aircraft_model):
         else:
             print("摩擦系数输入错误")
 
-    interpolation_function = interp2d(cg, gw, mw, kind='linear')
+    interpolation_function = interp2d(cg, gw, mw, kind='linear', fill_value='extrapolate')
     return interpolation_function(cg_new, gw_new)
 
 class EstimateBaApp:
