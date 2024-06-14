@@ -7,14 +7,19 @@ def vlookup_and_merge(table_a, table_b, join_column):
     merged_table = []
 
     # Add header row to the merged table
-    merged_table.append([cell.value for cell in table_a[1]] + [cell.value for cell in table_b[1]])
+    header_a = [cell.value for cell in table_a[1]]
+    header_b = [cell.value for cell in table_b[1] if cell.value != join_column]
+    merged_table.append(header_a + header_b)
+
+    # Create a dictionary to store table B data based on the join column
+    table_b_dict = {row[0]: row[1:] for row in table_b.iter_rows(min_row=2, values_only=True)}
 
     # Merge the tables based on the join column
     for row_a in table_a.iter_rows(min_row=2, values_only=True):
-        for row_b in table_b.iter_rows(min_row=2, values_only=True):
-            if row_a[0] == row_b[0]:
-                merged_row = list(row_a) + list(row_b[1:])
-                merged_table.append(merged_row)
+        join_value = row_a[0]
+        if join_value in table_b_dict:
+            merged_row = list(row_a) + list(table_b_dict[join_value])
+            merged_table.append(merged_row)
 
     return merged_table
 
@@ -53,14 +58,6 @@ if uploaded_file_a is not None and uploaded_file_b is not None:
         # Write the merged table to the new sheet
         for row in merged_table:
             merged_sheet.append(row)
-
-        # Remove duplicate columns
-        seen = set()
-        for cell in merged_sheet[1]:
-            if cell.value in seen:
-                cell.value = None
-            else:
-                seen.add(cell.value)
 
         # Save the merged table to a BytesIO object
         merged_file = io.BytesIO()
