@@ -12,6 +12,13 @@ def extract_images_from_page(page):
         images.append(image_bytes)
     return images
 
+def extract_tables_from_page(page):
+    tables = []
+    for table in page.get_text("dict")["blocks"]:
+        if table["type"] == 0 and table["bbox"]:
+            tables.append(table)
+    return tables
+
 def convert_pdf_to_word(pdf_path, word_path):
     # 打开PDF文件
     pdf_document = fitz.open(pdf_path)
@@ -19,12 +26,22 @@ def convert_pdf_to_word(pdf_path, word_path):
     doc = Document()
 
     for page_num in range(len(pdf_document)):
-        page = pdf_document.load_page(page_num)
+        page = pdf_document[page_num]
         text = page.get_text("text")
+        tables = extract_tables_from_page(page)
         images = extract_images_from_page(page)
         
         # 添加文本到Word文档
         doc.add_paragraph(text)
+
+        # 添加表格到Word文档
+        for table in tables:
+            table_text = table["text"]
+            table_rows = table_text.split("\n")
+            table_obj = doc.add_table(rows=len(table_rows), cols=1)
+            for row_index, row_text in enumerate(table_rows):
+                cell = table_obj.cell(row_index, 0)
+                cell.text = row_text
 
         # 添加图片到Word文档
         for image in images:
