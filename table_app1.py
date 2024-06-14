@@ -2,14 +2,7 @@ import streamlit as st
 from openpyxl import load_workbook, Workbook
 
 def vlookup_and_merge(table_a, table_b, join_column):
-    merged_table = []
-    merged_table.append([cell.value for cell in table_a[1]] + [cell.value for cell in table_b[1]][1:])
-
-    for row_a in table_a.iter_rows(min_row=2, values_only=True):
-        for row_b in table_b.iter_rows(min_row=2, values_only=True):
-            if row_a[0] == row_b[0]:
-                merged_row = list(row_a) + list(row_b[1:])
-                merged_table.append(merged_row)
+    # Your vlookup_and_merge function code here
 
     return merged_table
 
@@ -67,3 +60,4 @@ if uploaded_file_a is not None and uploaded_file_b is not None:
 
         # Provide a link to download the merged Excel file
         st.markdown(f"### [Download the merged table](./{merged_file_path})")
+
