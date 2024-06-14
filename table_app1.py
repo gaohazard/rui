@@ -12,7 +12,7 @@ st.title("VLOOKUP Tool")
 uploaded_file_a = st.file_uploader("Upload Table A", type=["csv", "xlsx"])
 if uploaded_file_a is not None:
     try:
-        table_a = pd.read_excel(uploaded_file_a)  # Read Excel file
+        table_a = pd.read_excel(uploaded_file_a, engine='openpyxl')  # Read Excel file using openpyxl engine
     except Exception as e:
         st.error("Error reading Table A. Please make sure the file format is correct.")
         st.stop()
@@ -21,7 +21,7 @@ if uploaded_file_a is not None:
 uploaded_file_b = st.file_uploader("Upload Table B", type=["csv", "xlsx"])
 if uploaded_file_b is not None:
     try:
-        table_b = pd.read_excel(uploaded_file_b)  # Read Excel file
+        table_b = pd.read_excel(uploaded_file_b, engine='openpyxl')  # Read Excel file using openpyxl engine
     except Exception as e:
         st.error("Error reading Table B. Please make sure the file format is correct.")
         st.stop()
