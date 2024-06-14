@@ -11,12 +11,20 @@ st.title("VLOOKUP Tool")
 # Upload Table A
 uploaded_file_a = st.file_uploader("Upload Table A", type=["csv", "xlsx"])
 if uploaded_file_a is not None:
-    table_a = pd.read_csv(uploaded_file_a)
+    try:
+        table_a = pd.read_csv(uploaded_file_a)
+    except Exception as e:
+        st.error("Error reading Table A. Please make sure the file format is correct.")
+        st.stop()
 
 # Upload Table B
 uploaded_file_b = st.file_uploader("Upload Table B", type=["csv", "xlsx"])
 if uploaded_file_b is not None:
-    table_b = pd.read_csv(uploaded_file_b)
+    try:
+        table_b = pd.read_csv(uploaded_file_b)
+    except Exception as e:
+        st.error("Error reading Table B. Please make sure the file format is correct.")
+        st.stop()
 
 if uploaded_file_a is not None and uploaded_file_b is not None:
     join_column = st.selectbox("Select the join column", table_a.columns)
