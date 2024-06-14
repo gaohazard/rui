@@ -1,68 +1,27 @@
 import streamlit as st
-import fitz  # PyMuPDF
-from docx import Document
-from docx.shared import Inches
-import io
+import os
+from pdf2docx import Converter
 
-def extract_images_from_page(page):
-    images = []
-    for img_index, img in enumerate(page.get_images(full=True)):
-        xref = img[0]
-        base_image = pdf_document.extract_image(xref)
-        image_bytes = base_image["image"]
-        images.append(image_bytes)
-    return images
+def pdf_to_word(pdf_file, word_file):
+    # 初始化转换器
+    cv = Converter(pdf_file)
+    cv.convert(word_file, start=0, end=None)
+    cv.close()
 
-def convert_pdf_to_word(pdf_path, word_path):
-    # 打开PDF文件
-    pdf_document = fitz.open(pdf_path)
-    
-    # 创建一个新的Word文档
-    doc = Document()
-
-    for page_num in range(len(pdf_document)):
-        page = pdf_document[page_num]
-        text = page.get_text("text")
-        images = extract_images_from_page(page)
-        
-        # 添加文本到Word文档
-        doc.add_paragraph(text)
-
-        # 添加图片到Word文档
-        for image in images:
-            image_stream = io.BytesIO(image)
-            doc.add_picture(image_stream, width=Inches(3))  # 插入图片（示例）
-
-    # 保存Word文档
-    doc.save(word_path)
-
-# 主函数
-def app1():
+# Streamlit 应用
+def app():
     st.title("PDF 转 Word 批量转换工具")
     
-    # 上传文件
-    uploaded_files = st.file_uploader("选择一个或多个PDF文件", type="pdf", accept_multiple_files=True)
+    uploaded_file = st.file_uploader("上传一个或多个PDF文件", type="pdf", accept_multiple_files=True)
     
-    if uploaded_files:
-        output_dir = "output"
-        if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
+    if uploaded_file is not None:
+        for pdf_file in uploaded_file:
+            word_file = pdf_file.name.replace('.pdf', '.docx')
+            pdf_to_word(pdf_file, word_file)
+            st.write(f'Converted: {pdf_file.name}')
         
-        for uploaded_file in uploaded_files:
-            pdf_filename = uploaded_file.name
-            word_filename = pdf_filename.replace('.pdf', '.docx')
-            pdf_path = os.path.join(output_dir, pdf_filename)
-            word_path = os.path.join(output_dir, word_filename)
-            
-            with open(pdf_path, "wb") as f:
-                f.write(uploaded_file.getbuffer())
-            
-            convert_pdf_to_word(pdf_path, word_path)
-            
-            st.success(f"转换成功: {word_filename}")
-            with open(word_path, "rb") as f:
-                st.download_button(f"下载 {word_filename}", f, file_name=word_filename)
+        st.success("转换完成！")
 
 if __name__ == "__main__":
-    app1()
+    app()
 
