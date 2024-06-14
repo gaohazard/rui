@@ -16,7 +16,6 @@ def vlookup_and_merge(table_a, table_b, join_column):
 
     return merged_table
 
-
 st.title("VLOOKUP Tool")
 
 # Upload Table A
@@ -69,6 +68,6 @@ if uploaded_file_a is not None and uploaded_file_b is not None:
         st.write(merged_table)
         st.write("Merged table saved to:", merged_file_path)
 
-        # Provide a link to download the merged Excel file
-        st.markdown(f"### [Download the merged table](./{merged_file_path})")
+        # Provide a direct download link to the merged Excel file
+        st.markdown(f"### [Download the merged table](data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{base64.b64encode(open(merged_file_path, 'rb').read()).decode()})")
 
