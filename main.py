@@ -9,7 +9,7 @@ from image_app3 import app3 as image_app3
 #from data_app2 import app2 as data_app2
 #from utility_app1 import app1 as utility_app1
 #from utility_app2 import app2 as utility_app2
-#from work_app1 import EstimateBaApp as work_app1
+from work_app1 import EstimateBaApp as work_app1
 #from work_app2 import app2 as work_app2
 
 def main():
