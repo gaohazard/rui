@@ -1,5 +1,7 @@
 import streamlit as st
 from openpyxl import load_workbook, Workbook
+import base64
+import io
 
 def vlookup_and_merge(table_a, table_b, join_column):
     merged_table = []
@@ -60,14 +62,11 @@ if uploaded_file_a is not None and uploaded_file_b is not None:
             else:
                 seen.add(cell.value)
 
-        # Save the merged table to a new Excel file
-        merged_file_path = "merged_table.xlsx"
-        merged_workbook.save(merged_file_path)
-
-        st.write("Merged Table:")
-        st.write(merged_table)
-        st.write("Merged table saved to:", merged_file_path)
+        # Save the merged table to a BytesIO object
+        merged_file = io.BytesIO()
+        merged_workbook.save(merged_file)
 
         # Provide a direct download link to the merged Excel file
-        st.markdown(f"### [Download the merged table](data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{base64.b64encode(open(merged_file_path, 'rb').read()).decode()})")
+        b64 = base64.b64encode(merged_file.getvalue()).decode()
+        st.markdown(f"### [Download the merged table](data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{b64})")
 
