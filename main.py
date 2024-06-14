@@ -9,7 +9,7 @@ from image_app3 import app3 as image_app3
 #from data_app2 import app2 as data_app2
 #from utility_app1 import app1 as utility_app1
 #from utility_app2 import app2 as utility_app2
-#from work_app1 import app1 as work_app1
+#from work_app1 import EstimateBaApp as work_app1
 #from work_app2 import app2 as work_app2
 
 def main():
@@ -50,11 +50,11 @@ def main():
             #utility_app1()
         #elif utility_type == "实用工具2":
             #utility_app2()
-    #elif process_type == "工作使用":
-        #st.sidebar.subheader("选择工作使用类型")
-        #work_type = st.sidebar.selectbox("选择工作使用类型", ["工作使用1", "工作使用2"])
+    elif process_type == "工作使用":
+        st.sidebar.subheader("选择工作使用类型")
+        work_type = st.sidebar.selectbox("选择工作使用类型", ["737飞机重量重心及停放中抗风能力测算工具", "工作使用2"])
 
-        #if work_type == "工作使用1":
+        if work_type == "737飞机重量重心及停放中抗风能力测算工具":
             #work_app1()
         #elif work_type == "工作使用2":
             #work_app2()
