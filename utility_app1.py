@@ -1,81 +1,46 @@
 import streamlit as st
-from docx import Document
-import fitz  # PyMuPDF
 import os
+import logging
+from configparser import ConfigParser
+from concurrent.futures import ProcessPoolExecutor
+from pdf2docx import Converter
 
-def extract_images_from_page(page):
-    images = []
-    for img_index, img in enumerate(page.get_images(full=True)):
-        xref = img[0]
-        base_image = pdf_document.extract_image(xref)
-        image_bytes = base_image["image"]
-        images.append(image_bytes)
-    return images
+def pdf_to_word(pdf_file_path, word_file_path):
+    cv = Converter(pdf_file_path)
+    cv.convert(word_file_path)
+    cv.close()
 
-def extract_tables_from_page(page):
-    tables = []
-    for table in page.get_text("dict")["blocks"]:
-        if table["type"] == 0 and table["bbox"]:
-            tables.append(table)
-    return tables
+def convert_pdfs_to_word(config):
+    tasks = []
+    with ProcessPoolExecutor(max_workers=int(config["max_worker"])) as executor:
+        for file in os.listdir(config["pdf_folder"]):
+            extension_name = os.path.splitext(file)[1]
+            if extension_name != ".pdf":
+                continue
+            file_name = os.path.splitext(file)[0]
+            pdf_file = config["pdf_folder"] + "/" + file
+            word_file = config["word_folder"] + "/" + file_name + ".docx"
+            st.write("正在处理: ", file)
+            result = executor.submit(pdf_to_word, pdf_file, word_file)
+            tasks.append(result)
+    while True:
+        exit_flag = True
+        for task in tasks:
+            if not task.done():
+                exit_flag = False
+        if exit_flag:
+            st.write("完成")
+            break
 
-def convert_pdf_to_word(pdf_path, word_path):
-    # 打开PDF文件
-    pdf_document = fitz.open(pdf_path)
-    # 创建一个新的Word文档
-    doc = Document()
-
-    for page_num in range(len(pdf_document)):
-        page = pdf_document[page_num]
-        text = page.get_text("text")
-        tables = extract_tables_from_page(page)
-        images = extract_images_from_page(page)
-        
-        # 添加文本到Word文档
-        doc.add_paragraph(text)
-
-        # 添加表格到Word文档
-        for table in tables:
-            table_text = table["text"]
-            table_rows = table_text.split("\n")
-            table_obj = doc.add_table(rows=len(table_rows), cols=1)
-            for row_index, row_text in enumerate(table_rows):
-                cell = table_obj.cell(row_index, 0)
-                cell.text = row_text
-
-        # 添加图片到Word文档
-        for image in images:
-            doc.add_picture(image, width=docx.shared.Inches(3))  # 插入图片（示例）
-
-    # 保存Word文档
-    doc.save(word_path)
-
-# 主函数
 def app1():
     st.title("PDF 转 Word 批量转换工具")
-    
-    # 上传文件
-    uploaded_files = st.file_uploader("选择一个或多个PDF文件", type="pdf", accept_multiple_files=True)
-    
-    if uploaded_files:
-        output_dir = "output"
-        if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
-        
-        for uploaded_file in uploaded_files:
-            pdf_filename = uploaded_file.name
-            word_filename = pdf_filename.replace('.pdf', '.docx')
-            pdf_path = os.path.join(output_dir, pdf_filename)
-            word_path = os.path.join(output_dir, word_filename)
-            
-            with open(pdf_path, "wb") as f:
-                f.write(uploaded_file.getbuffer())
-            
-            convert_pdf_to_word(pdf_path, word_path)
-            
-            st.success(f"转换成功: {word_filename}")
-            with open(word_path, "rb") as f:
-                st.download_button(f"下载 {word_filename}", f, file_name=word_filename)
+
+    config_parser = ConfigParser()
+    config_parser.read("config.cfg")
+    config = config_parser["default"]
+
+    convert_pdfs_to_word(config)
 
 if __name__ == "__main__":
     app1()
+
