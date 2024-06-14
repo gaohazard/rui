@@ -37,9 +37,9 @@ if uploaded_file is not None:
 
     cropped_image = crop_image(image, p1, p2)
 
-    # Save the cropped image to a temporary file
-    with tempfile.NamedTemporaryFile(delete=False) as temp_file:
-        cropped_image.save(temp_file.name, format="PNG", quality=95)
+    # Save the cropped image to a temporary file in JPEG format
+    with tempfile.NamedTemporaryFile(delete=False, suffix='.jpg') as temp_file:
+        cropped_image.save(temp_file.name, format="JPEG", quality=95)
 
         # Read the temporary file and display the cropped image
         with open(temp_file.name, "rb") as f:
