@@ -38,9 +38,13 @@ if uploaded_file is not None:
     clicked_point = st.image(image_array, use_column_width=True, clamp=True)
     draw = ImageDraw.Draw(image)
 
+    if st.session_state.mouse_click_data is None:
+        st.session_state.mouse_click_data = {}
+
     if clicked_point is not None:
-        x, y = st.session_state.mouse_click_data[clicked_point.key]["x"], st.session_state.mouse_click_data[clicked_point.key]["y"]
-        st.write(f"Clicked Point: ({x}, {y})")
+        x, y = st.session_state.mouse_click_data.get(clicked_point.key, {"x": None, "y": None}).values()
+        if x is not None and y is not None:
+            st.write(f"Clicked Point: ({x}, {y}")
 
         if st.session_state.cropped_p1 is None:
             st.session_state.cropped_p1 = (x, y)
