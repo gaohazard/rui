@@ -22,10 +22,7 @@ def display_time():
         with placeholder.container():
             st.markdown(f"**当前日期和时间:** {current_time}")  # 显示当前时间和日期
         time.sleep(1)  # 每秒更新一次
-
-if __name__ == "__main__":
-    st.title("实时时间显示")
-    display_time()
+    
 
 def main():
     st.sidebar.title("选择处理类型")
@@ -75,5 +72,5 @@ def main():
             #work_app2()
 if __name__ == "__main__":
     main()
-   
+    display_time()
 
