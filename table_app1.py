@@ -21,6 +21,19 @@ def vlookup_and_merge(table_a, table_b, join_column):
             merged_row = list(row_a) + list(table_b_dict[join_value])
             merged_table.append(merged_row)
 
+    # Remove duplicate columns
+    seen_columns = set()
+    columns_to_delete = []
+    for i, cell in enumerate(merged_table[0]):
+        if cell in seen_columns:
+            columns_to_delete.append(i)
+        else:
+            seen_columns.add(cell)
+
+    for row in merged_table:
+        for index in sorted(columns_to_delete, reverse=True):
+            del row[index]
+
     return merged_table
 
 st.title("VLOOKUP Tool")
@@ -66,4 +79,3 @@ if uploaded_file_a is not None and uploaded_file_b is not None:
         # Provide a direct download link to the merged Excel file
         b64 = base64.b64encode(merged_file.getvalue()).decode()
         st.markdown(f"### [Download the merged table](data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{b64})")
-
