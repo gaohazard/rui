@@ -15,6 +15,8 @@ from work_app1 import EstimateBaApp as work_app1
 #from work_app2 import app2 as work_app2
 
 st.sidebar.markdown("Developer: HAZARD")
+
+# 实时显示时间和日期
 def display_time():
     placeholder = st.sidebar.empty()  # 创建一个可变的占位符
     while True:
@@ -22,8 +24,11 @@ def display_time():
         with placeholder.container():
             st.markdown(f"**当前日期和时间:** {current_time}")  # 显示当前时间和日期
         time.sleep(1)  # 每秒更新一次
+
 if __name__ == "__main__":
+    st.title("实时时间显示")
     display_time()
+
 def main():
     st.sidebar.title("选择处理类型")
     process_type = st.sidebar.selectbox("选择处理类型", ["图片处理", "表格处理","数据分析","实用工具","工作使用"])
