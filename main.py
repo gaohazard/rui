@@ -6,7 +6,7 @@ from datetime import datetime
 import time
 import pytz
 #import cv2
-#from table_app1 import app1 as table_app1
+from table_app1 import app1 as table_app1
 #from table_app2 import app2 as table_app2
 #from data_app1 import app1 as data_app1
 #from data_app2 import app2 as data_app2
@@ -40,12 +40,12 @@ def main():
             image_app2()
         elif image_type == "修改照片格式":
             image_app3()
-    #elif process_type == "表格处理":
-        #st.sidebar.subheader("选择表格类型")
-        #table_type = st.sidebar.selectbox("选择表格类型", ["表格处理1", "表格处理2"])
+    elif process_type == "表格处理":
+        st.sidebar.subheader("选择表格类型")
+        table_type = st.sidebar.selectbox("选择表格类型", ["VLOOKUP工具", "表格处理2"])
 
-        #if table_type == "表格处理1":
-            #table_app1()
+        if table_type == "VLOOKUP工具":
+            table_app1()
         #elif table_type == "表格处理2":
             #table_app2()
     #elif process_type == "数据分析":
