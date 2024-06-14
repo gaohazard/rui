@@ -1,26 +1,45 @@
 import streamlit as st
-import os
-from pdf2docx import Converter
+import fitz  # PyMuPDF
+from docx import Document
+from io import BytesIO
 
-def pdf_to_word(pdf_file, word_file):
-    # 初始化转换器
-    cv = Converter(pdf_file)
-    cv.convert(word_file, start=0, end=None)
-    cv.close()
+def app1(pdf_file):
+    pdf_document = fitz.open(pdf_file)
+    doc = Document()
 
-# Streamlit 应用
-def app1():
-    st.title("PDF 转 Word 批量转换工具")
-    
-    uploaded_file = st.file_uploader("上传一个或多个PDF文件", type="pdf", accept_multiple_files=True)
-    
-    if uploaded_file is not None:
-        for pdf_file in uploaded_file:
-            word_file = pdf_file.name.replace('.pdf', '.docx')
-            pdf_to_word(pdf_file, word_file)
-            st.write(f'Converted: {pdf_file.name}')
-        
-        st.success("转换完成！")
+    for page_num in range(pdf_document.page_count):
+        page = pdf_document[page_num]
+        text = page.get_text("text")
+        image_list = page.get_pixmap()
+
+        doc.add_paragraph(text)
+        for image in image_list:
+            image_bytes = image.image_to_png_bytes()
+            image_stream = BytesIO(image_bytes)
+            doc.add_picture(image_stream)
+
+    return doc
+
+st.title("PDF to Word Converter")
+
+uploaded_file = st.file_uploader("Upload a PDF file", type="pdf")
+
+if uploaded_file is not None:
+    st.write("PDF file uploaded successfully!")
+
+    # Convert PDF to Word
+    word_doc = pdf_to_word(uploaded_file)
+
+    # Download the Word file
+    word_stream = BytesIO()
+    word_doc.save(word_stream)
+    st.download_button(
+        label="Download Word file",
+        data=word_stream.getvalue(),
+        file_name="converted_document.docx",
+        mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    )
+
 
 if __name__ == "__main__":
     app1()
