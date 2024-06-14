@@ -18,7 +18,7 @@ def convert_pdf_to_word(pdf_path, word_path):
     doc.save(word_path)
 
 # 主函数
-def utility_app1():
+def app1():
     st.title("PDF 转 Word 批量转换工具")
     
     # 上传文件
@@ -45,4 +45,4 @@ def utility_app1():
                 st.download_button(f"下载 {word_filename}", f, file_name=word_filename)
 
 if __name__ == "__main__":
-    utility_app1()
+    app1()
