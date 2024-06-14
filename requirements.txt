@@ -3,3 +3,13 @@ numpy
 pandas
 python-docx
 PyMuPDF
+fire
+fonttools
+lxml
+numpy
+opencv-python
+pdf2docx
+PyMuPDF
+python-docx
+six
+termcolor
