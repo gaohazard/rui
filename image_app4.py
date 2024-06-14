@@ -2,6 +2,7 @@ import streamlit as st
 import numpy as np
 from PIL import Image, ImageDraw
 from io import BytesIO
+import tempfile
 
 def crop_image(image, p1, p2):
     x1, y1 = p1
@@ -36,10 +37,12 @@ if uploaded_file is not None:
 
     cropped_image = crop_image(image, p1, p2)
 
-    # Save the cropped image to a BytesIO buffer with specified format and quality
-    cropped_image_buffer = BytesIO()
-    cropped_image.save(cropped_image_buffer, format="PNG", quality=95)
+    # Save the cropped image to a temporary file
+    with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+        cropped_image.save(temp_file.name, format="PNG", quality=95)
 
-    # Display the cropped image
-    st.image(cropped_image_buffer, caption="Cropped Image", use_column_width=True)
+        # Read the temporary file and display the cropped image
+        with open(temp_file.name, "rb") as f:
+            cropped_image_bytes = BytesIO(f.read())
+            st.image(cropped_image_bytes, caption="Cropped Image", use_column_width=True)
 
