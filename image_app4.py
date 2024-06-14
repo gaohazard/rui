@@ -18,43 +18,21 @@ if uploaded_file is not None:
     image = Image.open(uploaded_file)
     st.image(image, caption="Uploaded Image", use_column_width=True)
 
-    st.write("Click on the image to select two points for cropping.")
+    st.write("Move the line to select the cropping area.")
 
-    image_width, image_height = image.size
-    image_array = np.array(image)
+    # Draw a line to represent the cropping area
+    line_length = st.slider("Line Length", min_value=10, max_value=200, value=100)
+    line_direction = st.radio("Line Direction", ["Horizontal", "Vertical"])
 
-    if st.button("Clear Points"):
-        st.session_state.cropped_p1 = None
-        st.session_state.cropped_p2 = None
+    if line_direction == "Horizontal":
+        p1 = (0, image.height // 2)
+        p2 = (line_length, image.height // 2)
+    else:
+        p1 = (image.width // 2, 0)
+        p2 = (image.width // 2, line_length)
 
-    if "cropped_p1" not in st.session_state:
-        st.session_state.cropped_p1 = None
-    if "cropped_p2" not in st.session_state:
-        st.session_state.cropped_p2 = None
-
-    if st.session_state.cropped_p1 is not None and st.session_state.cropped_p2 is not None:
-        cropped_image = crop_image(image, st.session_state.cropped_p1, st.session_state.cropped_p2)
-        st.image(cropped_image, caption="Cropped Image", use_column_width=True)
-
-    clicked_point = st.image(image_array, use_column_width=True, clamp=True)
     draw = ImageDraw.Draw(image)
+    draw.line([p1, p2], fill="red", width=2)
 
-    if st.session_state.mouse_click_data is None:
-        st.session_state.mouse_click_data = {}
-
-    if clicked_point is not None:
-        x, y = st.session_state.mouse_click_data.get(clicked_point.key, {"x": None, "y": None}).values()
-        if x is not None and y is not None:
-            st.write(f"Clicked Point: ({x}, {y}")
-
-        if st.session_state.cropped_p1 is None:
-            st.session_state.cropped_p1 = (x, y)
-            draw.rectangle([x, y, x + 5, y + 5], outline="red", width=2)
-        elif st.session_state.cropped_p2 is None:
-            st.session_state.cropped_p2 = (x, y)
-            draw.rectangle([x, y, x + 5, y + 5], outline="blue", width=2)
-
-    new_image = Image.fromarray(image_array)
-    buffered = BytesIO()
-    new_image.save(buffered, format="PNG")
-    st.image(buffered, use_column_width=True, clamp=True)
+    cropped_image = crop_image(image, p1, p2)
+    st.image(cropped_image, caption="Cropped Image", use_column_width=True)
