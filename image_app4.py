@@ -24,7 +24,8 @@ if uploaded_file is not None:
     image_array = np.array(image)
 
     if st.button("Clear Points"):
-        st.experimental_rerun()
+        st.session_state.cropped_p1 = None
+        st.session_state.cropped_p2 = None
 
     if "cropped_p1" not in st.session_state:
         st.session_state.cropped_p1 = None
@@ -57,4 +58,3 @@ if uploaded_file is not None:
     buffered = BytesIO()
     new_image.save(buffered, format="PNG")
     st.image(buffered, use_column_width=True, clamp=True)
-
