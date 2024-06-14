@@ -2,6 +2,8 @@ import streamlit as st
 from image_app1 import app1 as image_app1
 from image_app2 import app2 as image_app2
 from image_app3 import app3 as image_app3
+from datetime import datetime
+import time
 #import cv2
 #from table_app1 import app1 as table_app1
 #from table_app2 import app2 as table_app2
@@ -11,7 +13,14 @@ from image_app3 import app3 as image_app3
 #from utility_app2 import app2 as utility_app2
 from work_app1 import EstimateBaApp as work_app1
 #from work_app2 import app2 as work_app2
-st.sidebar.markdown("Developer: HAZARD")
+
+def display_time():
+    while True:
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        st.sidebar.markdown(f"**当前时间:** {current_time}")
+        time.sleep(1)
+        st.sidebar.markdown("Developer: HAZARD")
+
 def main():
     st.sidebar.title("选择处理类型")
     process_type = st.sidebar.selectbox("选择处理类型", ["图片处理", "表格处理","数据分析","实用工具","工作使用"])
@@ -60,3 +69,5 @@ def main():
             #work_app2()
 if __name__ == "__main__":
     main()
+    st.title("实时时间显示")
+    display_time()
