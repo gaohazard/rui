@@ -10,7 +10,7 @@ import pytz
 #from table_app2 import app2 as table_app2
 #from data_app1 import app1 as data_app1
 #from data_app2 import app2 as data_app2
-#from utility_app1 import app1 as utility_app1
+from utility_app1 import app1 as utility_app1
 #from utility_app2 import app2 as utility_app2
 from work_app1 import EstimateBaApp as work_app1
 #from work_app2 import app2 as work_app2
@@ -56,12 +56,12 @@ def main():
             #data_app1()
         #elif data_type == "数据分析2":
             #data_app2()
-    #elif process_type == "实用工具":
-        #st.sidebar.subheader("选择实用工具类型")
-        #utility_type = st.sidebar.selectbox("选择实用工具类型", ["实用工具1", "实用工具2"])
+    elif process_type == "实用工具":
+        st.sidebar.subheader("选择实用工具类型")
+        utility_type = st.sidebar.selectbox("选择实用工具类型", ["PDF转WORD", "实用工具2"])
 
-        #if utility_type == "实用工具1":
-            #utility_app1()
+        if utility_type == "PDF转WORD":
+            utility_app1()
         #elif utility_type == "实用工具2":
             #utility_app2()
     elif process_type == "工作使用":
