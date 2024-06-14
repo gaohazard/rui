@@ -55,7 +55,7 @@ def main():
         work_type = st.sidebar.selectbox("选择工作使用类型", ["737飞机重量重心及停放中抗风能力测算工具", "工作使用2"])
 
         if work_type == "737飞机重量重心及停放中抗风能力测算工具":
-            #work_app1()
+            work_app1()
         #elif work_type == "工作使用2":
             #work_app2()
 if __name__ == "__main__":
