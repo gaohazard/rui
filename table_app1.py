@@ -38,31 +38,25 @@ def vlookup_and_merge(table_a, table_b, join_column):
 
 st.title("VLOOKUP Tool")
 
-# Upload Table A
-uploaded_file_a = st.file_uploader("Upload Table A", type=["xlsx"])
-if uploaded_file_a is not None:
-    try:
-        workbook_a = load_workbook(uploaded_file_a)
-        sheet_a = workbook_a.active
-    except Exception as e:
-        st.error("Error reading Table A. Please make sure the file format is correct.")
-        st.stop()
+uploaded_files = []
+for i in range(6):
+    uploaded_file = st.file_uploader(f"Upload Table {i+1}", type=["xlsx"])
+    if uploaded_file is not None:
+        try:
+            workbook = load_workbook(uploaded_file)
+            sheet = workbook.active
+            uploaded_files.append(sheet)
+        except Exception as e:
+            st.error(f"Error reading Table {i+1}. Please make sure the file format is correct.")
+            st.stop()
 
-# Upload Table B
-uploaded_file_b = st.file_uploader("Upload Table B", type=["xlsx"])
-if uploaded_file_b is not None:
-    try:
-        workbook_b = load_workbook(uploaded_file_b)
-        sheet_b = workbook_b.active
-    except Exception as e:
-        st.error("Error reading Table B. Please make sure the file format is correct.")
-        st.stop()
-
-if uploaded_file_a is not None and uploaded_file_b is not None:
-    join_column = st.selectbox("Select the join column", [cell.value for cell in sheet_a[1]])
+if len(uploaded_files) >= 2:
+    join_column = st.selectbox("Select the join column", [cell.value for cell in uploaded_files[0][1]])
 
     if st.button("Perform VLOOKUP"):
-        merged_table = vlookup_and_merge(sheet_a, sheet_b, join_column)
+        merged_table = uploaded_files[0]
+        for table in uploaded_files[1:]:
+            merged_table = vlookup_and_merge(merged_table, table, join_column)
 
         # Create a new workbook and sheet to store the merged table
         merged_workbook = Workbook()
