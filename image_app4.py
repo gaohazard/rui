@@ -35,4 +35,11 @@ if uploaded_file is not None:
     draw.line([p1, p2], fill="red", width=2)
 
     cropped_image = crop_image(image, p1, p2)
-    st.image(cropped_image, caption="Cropped Image", use_column_width=True)
+
+    # Save the cropped image to a BytesIO buffer with specified format and quality
+    cropped_image_buffer = BytesIO()
+    cropped_image.save(cropped_image_buffer, format="PNG", quality=95)
+
+    # Display the cropped image
+    st.image(cropped_image_buffer, caption="Cropped Image", use_column_width=True)
+
