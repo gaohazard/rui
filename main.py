@@ -11,7 +11,7 @@ from image_app3 import app3 as image_app3
 #from utility_app2 import app2 as utility_app2
 from work_app1 import EstimateBaApp as work_app1
 #from work_app2 import app2 as work_app2
-
+st.sidebar.markdown("Developer: HAZARD")
 def main():
     st.sidebar.title("选择处理类型")
     process_type = st.sidebar.selectbox("选择处理类型", ["图片处理", "表格处理","数据分析","实用工具","工作使用"])
