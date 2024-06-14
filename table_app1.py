@@ -2,9 +2,20 @@ import streamlit as st
 from openpyxl import load_workbook, Workbook
 
 def vlookup_and_merge(table_a, table_b, join_column):
-    # Your vlookup_and_merge function code here
+    merged_table = []
+
+    # Add header row to the merged table
+    merged_table.append([cell.value for cell in table_a[1]] + [cell.value for cell in table_b[1]])
+
+    # Merge the tables based on the join column
+    for row_a in table_a.iter_rows(min_row=2, values_only=True):
+        for row_b in table_b.iter_rows(min_row=2, values_only=True):
+            if row_a[0] == row_b[0]:
+                merged_row = list(row_a) + list(row_b[1:])
+                merged_table.append(merged_row)
 
     return merged_table
+
 
 st.title("VLOOKUP Tool")
 
