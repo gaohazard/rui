@@ -75,3 +75,4 @@ if len(uploaded_files) >= 2:
     # Provide a direct download link to the merged Excel file
     b64 = base64.b64encode(merged_file.getvalue()).decode()
     st.markdown(f"### [Download the merged table](data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{b64})")
+
