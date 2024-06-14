@@ -14,8 +14,6 @@ import time
 from work_app1 import EstimateBaApp as work_app1
 #from work_app2 import app2 as work_app2
 
-st.sidebar.markdown("Developer: HAZARD")
-
 # 实时显示时间和日期
 def display_time():
     placeholder = st.sidebar.empty()  # 创建一个可变的占位符
