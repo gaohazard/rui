@@ -3,12 +3,13 @@ from openpyxl import load_workbook, Workbook
 
 def vlookup_and_merge(table_a, table_b, join_column):
     merged_table = []
-    merged_table.append([cell.value for cell in table_a[1]] + [cell.value for cell in table_b[1]])
+    merged_table.append([cell.value for cell in table_a[1]] + [cell.value for cell in table_b[1]][1:])
 
     for row_a in table_a.iter_rows(min_row=2, values_only=True):
         for row_b in table_b.iter_rows(min_row=2, values_only=True):
             if row_a[0] == row_b[0]:
-                merged_table.append(list(row_a) + list(row_b[1:]))
+                merged_row = list(row_a) + list(row_b[1:])
+                merged_table.append(merged_row)
 
     return merged_table
 
@@ -48,6 +49,14 @@ if uploaded_file_a is not None and uploaded_file_b is not None:
         for row in merged_table:
             merged_sheet.append(row)
 
+        # Remove duplicate columns
+        seen = set()
+        for cell in merged_sheet[1]:
+            if cell.value in seen:
+                cell.value = None
+            else:
+                seen.add(cell.value)
+
         # Save the merged table to a new Excel file
         merged_file_path = "merged_table.xlsx"
         merged_workbook.save(merged_file_path)
@@ -55,3 +64,6 @@ if uploaded_file_a is not None and uploaded_file_b is not None:
         st.write("Merged Table:")
         st.write(merged_table)
         st.write("Merged table saved to:", merged_file_path)
+
+        # Provide a link to download the merged Excel file
+        st.markdown(f"### [Download the merged table](./{merged_file_path})")
