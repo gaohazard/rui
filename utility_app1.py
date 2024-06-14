@@ -9,7 +9,7 @@ def pdf_to_word(pdf_file, word_file):
     cv.close()
 
 # Streamlit 应用
-def app():
+def app1():
     st.title("PDF 转 Word 批量转换工具")
     
     uploaded_file = st.file_uploader("上传一个或多个PDF文件", type="pdf", accept_multiple_files=True)
@@ -23,5 +23,5 @@ def app():
         st.success("转换完成！")
 
 if __name__ == "__main__":
-    app()
+    app1()
 
