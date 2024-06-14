@@ -4,6 +4,7 @@ from image_app2 import app2 as image_app2
 from image_app3 import app3 as image_app3
 from datetime import datetime
 import time
+import pytz
 #import cv2
 #from table_app1 import app1 as table_app1
 #from table_app2 import app2 as table_app2
@@ -16,11 +17,12 @@ from work_app1 import EstimateBaApp as work_app1
 
 # 实时显示时间和日期
 def display_time():
+    tz = pytz.timezone('Asia/Shanghai')  # 设置为北京时间
     placeholder = st.sidebar.empty()  # 创建一个可变的占位符
     while True:
-        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")  # 获取当前时间和日期
+        current_time = datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")  # 获取当前北京时间和日期
         with placeholder.container():
-            st.markdown(f"**当前日期和时间:** {current_time}")  # 显示当前时间和日期
+            st.markdown(f"**当前北京时间:** {current_time}")  # 显示当前北京时间和日期
         time.sleep(1)  # 每秒更新一次
     
 
