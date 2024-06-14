@@ -2,4 +2,4 @@ scipy
 numpy
 pandas
 python-docx
-streamlit python-docx PyMuPDF
+
