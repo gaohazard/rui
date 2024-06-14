@@ -3,7 +3,7 @@ from openpyxl import load_workbook, Workbook
 import base64
 import io
 
-def vlookup_and_merge(table_a, table_b, join_column):
+def app1(table_a, table_b, join_column):
     merged_table = []
 
     # Add header row to the merged table
@@ -79,3 +79,5 @@ if uploaded_file_a is not None and uploaded_file_b is not None:
         # Provide a direct download link to the merged Excel file
         b64 = base64.b64encode(merged_file.getvalue()).decode()
         st.markdown(f"### [Download the merged table](data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{b64})")
+if __name__ == "__main__":
+    app1()
