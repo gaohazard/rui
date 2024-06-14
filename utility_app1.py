@@ -3,6 +3,15 @@ from docx import Document
 import fitz  # PyMuPDF
 import os
 
+def extract_images_from_page(page):
+    images = []
+    for img_index, img in enumerate(page.get_images(full=True)):
+        xref = img[0]
+        base_image = pdf_document.extract_image(xref)
+        image_bytes = base_image["image"]
+        images.append(image_bytes)
+    return images
+
 def convert_pdf_to_word(pdf_path, word_path):
     # 打开PDF文件
     pdf_document = fitz.open(pdf_path)
@@ -12,7 +21,16 @@ def convert_pdf_to_word(pdf_path, word_path):
     for page_num in range(len(pdf_document)):
         page = pdf_document.load_page(page_num)
         text = page.get_text("text")
-        doc.add_paragraph(text)
+        images = extract_images_from_page(page)
+        
+        # 添加文本到Word文档
+        paragraph = doc.add_paragraph()
+        run = paragraph.add_run(text)
+        run.bold = True  # 设置文本为粗体（示例）
+
+        # 添加图片到Word文档
+        for image in images:
+            doc.add_picture(image, width=docx.shared.Inches(3))  # 插入图片（示例）
 
     # 保存Word文档
     doc.save(word_path)
