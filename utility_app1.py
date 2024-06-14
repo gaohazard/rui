@@ -1,6 +1,8 @@
 import streamlit as st
 import fitz  # PyMuPDF
-import os
+from docx import Document
+from docx.shared import Inches
+import io
 
 def extract_images_from_page(page):
     images = []
@@ -28,7 +30,8 @@ def convert_pdf_to_word(pdf_path, word_path):
 
         # 添加图片到Word文档
         for image in images:
-            doc.add_picture(image, width=docx.shared.Inches(3))  # 插入图片（示例）
+            image_stream = io.BytesIO(image)
+            doc.add_picture(image_stream, width=Inches(3))  # 插入图片（示例）
 
     # 保存Word文档
     doc.save(word_path)
@@ -62,5 +65,4 @@ def app1():
 
 if __name__ == "__main__":
     app1()
-
 
