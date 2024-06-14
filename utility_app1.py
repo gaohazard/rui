@@ -24,9 +24,7 @@ def convert_pdf_to_word(pdf_path, word_path):
         images = extract_images_from_page(page)
         
         # 添加文本到Word文档
-        paragraph = doc.add_paragraph()
-        run = paragraph.add_run(text)
-        run.bold = True  # 设置文本为粗体（示例）
+        doc.add_paragraph(text)
 
         # 添加图片到Word文档
         for image in images:
