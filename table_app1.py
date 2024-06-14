@@ -1,13 +1,15 @@
 import streamlit as st
-from openpyxl import load_workbook
+from openpyxl import load_workbook, Workbook
 
-def vlookup(table_a, table_b, join_column):
-    # Perform VLOOKUP operation
+def vlookup_and_merge(table_a, table_b, join_column):
     merged_table = []
+    merged_table.append([cell.value for cell in table_a[1]] + [cell.value for cell in table_b[1]])
+
     for row_a in table_a.iter_rows(min_row=2, values_only=True):
         for row_b in table_b.iter_rows(min_row=2, values_only=True):
             if row_a[0] == row_b[0]:
-                merged_table.append(row_a + row_b[1:])
+                merged_table.append(list(row_a) + list(row_b[1:]))
+
     return merged_table
 
 st.title("VLOOKUP Tool")
@@ -36,6 +38,20 @@ if uploaded_file_a is not None and uploaded_file_b is not None:
     join_column = st.selectbox("Select the join column", [cell.value for cell in sheet_a[1]])
 
     if st.button("Perform VLOOKUP"):
-        merged_table = vlookup(sheet_a, sheet_b, join_column)
+        merged_table = vlookup_and_merge(sheet_a, sheet_b, join_column)
+
+        # Create a new workbook and sheet to store the merged table
+        merged_workbook = Workbook()
+        merged_sheet = merged_workbook.active
+
+        # Write the merged table to the new sheet
+        for row in merged_table:
+            merged_sheet.append(row)
+
+        # Save the merged table to a new Excel file
+        merged_file_path = "merged_table.xlsx"
+        merged_workbook.save(merged_file_path)
+
         st.write("Merged Table:")
         st.write(merged_table)
+        st.write("Merged table saved to:", merged_file_path)
