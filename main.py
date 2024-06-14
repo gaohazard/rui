@@ -15,11 +15,13 @@ from work_app1 import EstimateBaApp as work_app1
 #from work_app2 import app2 as work_app2
 
 def display_time():
+    placeholder = st.sidebar.empty()  # 创建一个可变的占位符
     while True:
-        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        st.sidebar.markdown(f"**当前时间:** {current_time}")
-        time.sleep(1)
-        st.sidebar.markdown("Developer: HAZARD")
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")  # 获取当前时间和日期
+        with placeholder.container():
+            st.markdown(f"**当前日期和时间:** {current_time}")  # 显示当前时间和日期
+        time.sleep(1)  # 每秒更新一次
+
 
 def main():
     st.sidebar.title("选择处理类型")
@@ -69,5 +71,5 @@ def main():
             #work_app2()
 if __name__ == "__main__":
     main()
-    st.title("实时时间显示")
     display_time()
+    st.sidebar.markdown("Developer: HAZARD")
