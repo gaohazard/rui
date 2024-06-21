@@ -14,7 +14,14 @@ def transcribe_audio(audio_file):
 def convert_to_wav(mp3_file):
     wav_file = "temp_audio_file.wav"
     command = ["ffmpeg", "-i", mp3_file, "-acodec", "pcm_s16le", "-ar", "16000", wav_file]
-    subprocess.run(command, check=True)
+    try:
+        result = subprocess.run(command, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        if result.returncode != 0:
+            st.error(f"FFmpeg error: {result.stderr.decode('utf-8')}")
+    except FileNotFoundError:
+        st.error("FFmpeg未安装，请安装FFmpeg并确保其在系统路径中。")
+    except Exception as e:
+        st.error(f"转换过程中发生错误: {e}")
     return wav_file
 
 def main():
@@ -34,19 +41,19 @@ def main():
         wav_file = convert_to_wav("temp_audio_file.mp3")
 
         # 识别 WAV 文件中的文本
-        text = transcribe_audio(wav_file)
+        if os.path.exists(wav_file):
+            text = transcribe_audio(wav_file)
 
-        # 显示转换后的文本
-        st.write("转录的文本:")
-        st.write(text)
+            # 显示转换后的文本
+            st.write("转录的文本:")
+            st.write(text)
 
-        # 将文本保存到文件中
-        with open('transcribed_text.txt', 'w', encoding='utf-8') as file:
-            file.write(text)
+            # 将文本保存到文件中
+            with open('transcribed_text.txt', 'w', encoding='utf-8') as file:
+                file.write(text)
 
-        # 提供下载链接
-        st.download_button("下载转录文本文件", data=text, file_name='transcribed_text.txt', mime='text/plain')
+            # 提供下载链接
+            st.download_button("下载转录文本文件", data=text, file_name='transcribed_text.txt', mime='text/plain')
 
 if __name__ == '__main__':
     main()
-
