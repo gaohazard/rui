@@ -14,6 +14,6 @@ python-docx
 six
 termcolor
 openpyxl
-gTTS
+gTTS==2.1.1
 PyAudio==0.2.11
 SpeechRecognition==3.8.1
