@@ -15,4 +15,5 @@ six
 termcolor
 openpyxl
 gTTS
-
+PyAudio==0.2.11
+SpeechRecognition==3.8.1
