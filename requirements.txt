@@ -19,3 +19,4 @@ pydub
 SpeechRecognition
 audioread
 mutagen
+googletrans
