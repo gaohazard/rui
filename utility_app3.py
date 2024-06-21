@@ -1,6 +1,6 @@
 import streamlit as st
 import speech_recognition as sr
-from pydub import AudioSegment
+import subprocess
 
 def transcribe_audio(audio_file):
     r = sr.Recognizer()
@@ -10,9 +10,8 @@ def transcribe_audio(audio_file):
     return text
 
 def convert_to_wav(mp3_file):
-    sound = AudioSegment.from_mp3(mp3_file)
     wav_file = "temp_audio_file.wav"
-    sound.export(wav_file, format="wav")
+    subprocess.run(['ffmpeg', '-i', mp3_file, wav_file])
     return wav_file
 
 def main():
