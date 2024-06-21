@@ -24,7 +24,13 @@ def convert_to_wav(mp3_bytes):
         wav_file.setframerate(mp3_audio.info.sample_rate)
         wav_file.writeframes(np.array(audio_data).tobytes())
     wav_io.seek(0)
-    return wav_io
+    
+    # 将 WAV 数据保存到临时文件
+    temp_wav_file = "temp_audio_file.wav"
+    with open(temp_wav_file, "wb") as f:
+        f.write(wav_io.read())
+    
+    return temp_wav_file
 
 def main():
     st.title("语音转文字转换器")
@@ -33,10 +39,10 @@ def main():
 
     if uploaded_file is not None:
         # 将上传的 MP3 文件转换为 WAV 文件
-        wav_file_io = convert_to_wav(uploaded_file.getvalue())
+        wav_file = convert_to_wav(uploaded_file.getvalue())
 
         # 识别 WAV 文件中的文本
-        text = transcribe_audio(wav_file_io)
+        text = transcribe_audio(wav_file)
 
         # 显示转换后的文本
         st.write("转录的文本:")
