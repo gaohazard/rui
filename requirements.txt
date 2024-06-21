@@ -18,3 +18,4 @@ gTTS
 pydub
 SpeechRecognition
 audioread
+mutagen
