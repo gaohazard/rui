@@ -11,7 +11,7 @@ def transcribe_audio(audio_file):
 
 def convert_to_wav(mp3_file):
     wav_file = "temp_audio_file.wav"
-    subprocess.run(['ffmpeg', '-i', mp3_file, wav_file])
+    subprocess.run(['ffmpeg', '-i', mp3_file, '-acodec', 'pcm_s16le', '-ac', '1', '-ar', '16000', wav_file])
     return wav_file
 
 def main():
