@@ -1,25 +1,17 @@
 import streamlit as st
-from gtts import gTTS 
-import os
+import pyttsx3
 
-# 创建Streamlit应用
 st.title("文本转语音")
 
-# 上传文本文件
-uploaded_file = st.file_uploader("上传文本文件", type=["txt"])
+# 获取用户输入的文本
+text = st.text_area("请输入要转换为语音的文本", "")
 
-if uploaded_file is not None:
-    # 读取上传的文本文件
-    file_contents = uploaded_file.getvalue().decode("utf-8")
+# 初始化 pyttsx3 引擎
+engine = pyttsx3.init()
 
-    # 将文本转换为语音
-    speech = gTTS(text=file_contents, lang='en', slow=False)
-    speech.save("voice.mp3")
+# 将文本转换为语音
+engine.save_to_file(text, 'output.mp3')
 
-    # 在Streamlit中播放语音
-    audio_file = open('voice.mp3', 'rb')
-    audio_bytes = audio_file.read()
-    st.audio(audio_bytes, format='audio/mp3')
+# 播放生成的语音
+st.audio('output.mp3', format='audio/mp3')
 
-    # 显示文本内容
-    st.write(file_contents)
