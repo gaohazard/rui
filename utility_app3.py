@@ -1,6 +1,6 @@
 import streamlit as st
 import speech_recognition as sr
-from mutagen.mp3 import MP3
+from pydub import AudioSegment
 import wave
 import numpy as np
 from io import BytesIO
@@ -13,18 +13,11 @@ def transcribe_audio(audio_file):
     return text
 
 def convert_to_wav(mp3_bytes):
-    mp3_audio = MP3(BytesIO(mp3_bytes))
-
-    # 获取音频数据段
-    audio_data = mp3_audio.get_audio_segment()
+    audio = AudioSegment.from_file(BytesIO(mp3_bytes), format="mp3")
 
     # 创建一个 BytesIO 对象来保存 WAV 文件
     wav_io = BytesIO()
-    with wave.open(wav_io, "wb") as wav_file:
-        wav_file.setnchannels(mp3_audio.info.channels)
-        wav_file.setsampwidth(2)  # 16-bit samples
-        wav_file.setframerate(mp3_audio.info.sample_rate)
-        wav_file.writeframes(np.array(audio_data).tobytes())
+    audio.export(wav_io, format="wav")
     wav_io.seek(0)
     
     # 将 WAV 数据保存到临时文件
@@ -59,3 +52,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
