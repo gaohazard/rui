@@ -14,7 +14,9 @@ def transcribe_audio(audio_file):
 
 def convert_to_wav(mp3_bytes):
     mp3_audio = MP3(BytesIO(mp3_bytes))
-    audio_data = mp3_audio.audio
+
+    # 获取音频数据段
+    audio_data = mp3_audio.get_audio_segment()
 
     # 创建一个 BytesIO 对象来保存 WAV 文件
     wav_io = BytesIO()
