@@ -15,5 +15,5 @@ six
 termcolor
 openpyxl
 gTTS
-
+pydub
 SpeechRecognition
