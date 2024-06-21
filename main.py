@@ -11,7 +11,7 @@ from table_app1 import app1 as table_app1
 #from data_app1 import app1 as data_app1
 #from data_app2 import app2 as data_app2
 from utility_app1 import app1 as utility_app1
-#from utility_app2 import app2 as utility_app2
+from utility_app2 import app2 as utility_app2
 from work_app1 import EstimateBaApp as work_app1
 #from work_app2 import app2 as work_app2
 
@@ -58,12 +58,12 @@ def main():
             #data_app2()
     elif process_type == "实用工具":
         st.sidebar.subheader("选择实用工具类型")
-        utility_type = st.sidebar.selectbox("选择实用工具类型", ["PDF转WORD", "实用工具2"])
+        utility_type = st.sidebar.selectbox("选择实用工具类型", ["PDF转WORD", "文字转语音"])
 
         if utility_type == "PDF转WORD":
             utility_app1()
-        #elif utility_type == "实用工具2":
-            #utility_app2()
+        elif utility_type == "文字转语音":
+            utility_app2()
     elif process_type == "工作使用":
         st.sidebar.subheader("选择工作使用类型")
         work_type = st.sidebar.selectbox("选择工作使用类型", ["737飞机重量重心及停放中抗风能力测算工具", "工作使用2"])
