@@ -1,6 +1,7 @@
 import streamlit as st
 import speech_recognition as sr
-from pydub import AudioSegment
+import audioread
+import wave
 from io import BytesIO
 
 def transcribe_audio(audio_file):
@@ -11,11 +12,16 @@ def transcribe_audio(audio_file):
     return text
 
 def convert_to_wav(mp3_bytes):
-    audio = AudioSegment.from_file(BytesIO(mp3_bytes), format="mp3")
-    wav_file = BytesIO()
-    audio.export(wav_file, format="wav")
-    wav_file.seek(0)
-    return wav_file
+    with audioread.audio_open(BytesIO(mp3_bytes)) as input_file:
+        with wave.open("temp_audio_file.wav", "wb") as output_file:
+            output_file.setnchannels(input_file.channels)
+            output_file.setsampwidth(2)  # 16-bit samples
+            output_file.setframerate(input_file.samplerate)
+
+            for buffer in input_file:
+                output_file.writeframes(buffer)
+
+    return "temp_audio_file.wav"
 
 def main():
     st.title("语音转文字转换器")
@@ -24,10 +30,10 @@ def main():
 
     if uploaded_file is not None:
         # 将上传的 MP3 文件转换为 WAV 文件
-        wav_file = convert_to_wav(uploaded_file.getvalue())
+        wav_file_path = convert_to_wav(uploaded_file.getvalue())
 
         # 识别 WAV 文件中的文本
-        text = transcribe_audio(wav_file)
+        text = transcribe_audio(wav_file_path)
 
         # 显示转换后的文本
         st.write("转录的文本:")
