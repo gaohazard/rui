@@ -17,3 +17,4 @@ openpyxl
 gTTS
 pydub
 SpeechRecognition
+apt-get
