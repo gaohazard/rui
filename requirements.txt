@@ -20,5 +20,5 @@ SpeechRecognition
 audioread
 mutagen
 googletrans
-portaudio19-dev
+portaudio19
 pip==24.1
