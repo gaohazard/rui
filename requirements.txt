@@ -20,4 +20,3 @@ SpeechRecognition
 audioread
 mutagen
 googletrans
-pyaudio
