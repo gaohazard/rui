@@ -21,3 +21,4 @@ audioread
 mutagen
 googletrans
 portaudio19-dev
+pyaudio
