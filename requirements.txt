@@ -6,5 +6,3 @@ PyMuPDF
 fire
 fonttools
 lxml
-numpy
-
