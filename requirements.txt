@@ -16,9 +16,4 @@ termcolor
 openpyxl
 gTTS
 pydub
-SpeechRecognition
-audioread
-mutagen
-googletrans
-portaudio
-pip==24.1
+
